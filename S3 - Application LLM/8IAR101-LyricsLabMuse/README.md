@@ -1,5 +1,7 @@
 # LyricsLabMuse
-
+Avec:
+Jean-Philippe Tremblay
+Mathis Gauthier
 ## Project Structure
 ```bash
 8IAR101-LyricsLabMuse/
