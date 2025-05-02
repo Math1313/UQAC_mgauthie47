@@ -1,0 +1,92 @@
+# Pipeline de démarrage
+# Commencez avec un pipeline minimal que vous pouvez personnaliser pour construire et déployer votre code.
+# Ajoutez des étapes qui construisent, exécutent des tests, déploient, et plus encore :
+# https://aka.ms/yaml
+
+# Déclenche le pipeline lorsqu'il y a des modifications dans la branche 'master'
+trigger:
+  - master
+
+# Utilise le pool d'agents par défaut
+pool: default
+
+# Déclaration des variables utilisées dans le pipeline
+variables:
+  - name: CloudInitContent  # Contiendra le contenu encodé en Base64 du script Cloud-Init
+  - name: AZP_AGENT_CLEANUP_PSMODULES_IN_POWERSHELL
+    value: true  # Assure le nettoyage des modules PowerShell après exécution
+
+steps:
+  # Étape pour créer les groupes de ressources dans le projet
+  - task: AzureResourceManagerTemplateDeployment@3
+    displayName: "Créer les Resource Groups dans le projet"
+    inputs:
+      deploymentScope: 'Subscription'  # Le déploiement s'effectue au niveau de la souscription
+      azureResourceManagerConnection: 'Azure subscription 1(4024e7ed-5dcb-4a26-bb0c-42a8105351e2)'  # Connexion à la souscription Azure
+      subscriptionId: '4024e7ed-5dcb-4a26-bb0c-42a8105351e2'  # ID de la souscription
+      location: 'West US 2'  # Région où le déploiement aura lieu
+      templateLocation: 'Linked artifact'  # Emplacement du modèle ARM
+      csmFile: '$(Build.SourcesDirectory)\ResourceGroup\azuredeploy.json'  # Chemin vers le fichier de déploiement
+      csmParametersFile: '$(Build.SourcesDirectory)\ResourceGroup\azuredeploy.parameters.json'  # Chemin vers le fichier de paramètres
+      deploymentMode: 'Incremental'  # Mode de déploiement incrémental pour ajouter ou mettre à jour les ressources
+
+  # Étape pour créer le Azure Key Vault
+  - task: AzureResourceManagerTemplateDeployment@3
+    displayName: "Créer le Azure Key Vault"
+    inputs:
+      deploymentScope: 'Resource Group'  # Le déploiement s'effectue au niveau du groupe de ressources
+      azureResourceManagerConnection: 'Azure subscription 1(4024e7ed-5dcb-4a26-bb0c-42a8105351e2)'  # Connexion à la souscription Azure
+      subscriptionId: '4024e7ed-5dcb-4a26-bb0c-42a8105351e2'  # ID de la souscription
+      action: 'Create Or Update Resource Group'  # Action de créer ou mettre à jour le groupe de ressources
+      resourceGroupName: 'Devoir-1-Vault-Resource-Group'  # Nom du groupe de ressources pour le Key Vault
+      location: 'West US 2'  # Région où le Key Vault sera déployé
+      templateLocation: 'Linked artifact'  # Emplacement du modèle ARM
+      csmFile: '$(Build.SourcesDirectory)\KeyVault\azuredeploy.json'  # Chemin vers le fichier de déploiement du Key Vault
+      csmParametersFile: '$(Build.SourcesDirectory)\KeyVault\azuredeploy.parameters.json'  # Chemin vers le fichier de paramètres du Key Vault
+      # Surcharge le paramètre 'secretValue' avec le mot de passe administrateur de la VM
+      overrideParameters: >-
+        -secretValue $(virtualMachineAdminPassword)
+      deploymentMode: 'Incremental'  # Mode de déploiement incrémental
+
+    #============ TÂCHE IMPORTANTE POUR RÉCUPÉRER LE SECRET =============
+  # Étape pour récupérer le secret du mot de passe administrateur des VMs depuis le Key Vault
+  - task: AzureKeyVault@2
+    displayName: "Récupérer le secret pour l'administrateur des VMs"
+    inputs:
+      azureSubscription: 'Azure subscription 1(4024e7ed-5dcb-4a26-bb0c-42a8105351e2)'  # Connexion à la souscription Azure
+      KeyVaultName: 'vault-8cld201-devoir1'  # Nom du Key Vault
+      SecretsFilter: 'vmPassword'  # Filtre pour récupérer le secret nommé 'vmPassword'
+      RunAsPreJob: false  # Exécuter cette tâche pendant le job principal
+
+  # Étape pour convertir le script Cloud-Init en Base64
+  - task: PowerShell@2
+    displayName: Convertir le Cloud-Init en Base64
+    inputs:
+      targetType: 'inline'
+      script: |
+        # Lit le contenu du fichier Cloud-Init.txt
+        $CloudContent = Get-Content -Path .\VirtualMachine\Cloud-Init.txt -Raw
+        # Convertit le contenu en une chaîne Base64
+        $encodedContent = [Convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes($CloudContent))
+        # Définit une variable de pipeline avec le contenu encodé
+        Write-Host "##vso[task.setvariable variable=CloudInitContent;]$encodedContent"
+
+  # Étape pour déployer le Scale Set de machines virtuelles
+  - task: AzureResourceManagerTemplateDeployment@3
+    displayName: Déployer le Scale Set
+    inputs:
+      deploymentScope: 'Resource Group'  # Le déploiement s'effectue au niveau du groupe de ressources
+      azureResourceManagerConnection: 'Azure subscription 1(4024e7ed-5dcb-4a26-bb0c-42a8105351e2)'  # Connexion à la souscription Azure
+      subscriptionId: '4024e7ed-5dcb-4a26-bb0c-42a8105351e2'  # ID de la souscription
+      action: 'Create Or Update Resource Group'  # Action de créer ou mettre à jour le groupe de ressources
+      resourceGroupName: 'Devoir-1-VirtualMachine-Resource-Group'  # Nom du groupe de ressources pour le Scale Set
+      location: 'West US 2'  # Région où le Scale Set sera déployé
+      templateLocation: 'Linked artifact'  # Emplacement du modèle ARM
+      csmFile: '$(Build.SourcesDirectory)\VirtualMachine\azuredeploy.json'  # Chemin vers le fichier de déploiement du Scale Set
+      csmParametersFile: '$(Build.SourcesDirectory)\VirtualMachine\azuredeploy.parameters.json'  # Chemin vers le fichier de paramètres du Scale Set
+      # Surcharge le mot de passe administrateur avec le secret récupéré
+      # Surcharge le customData avec le fichier CloudInitContent converti précédement     
+      overrideParameters: >-
+        -adminPassword $(vmPassword)
+        -customData $(CloudInitContent)  
+      deploymentMode: 'Incremental'  # Mode de déploiement incrémental

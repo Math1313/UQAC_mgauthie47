@@ -1,0 +1,142 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "location": {
+      "value": "westus2"
+    },
+    "osDiskType": {
+      "value": "StandardSSD_LRS"
+    },
+    "addressPrefixes": {
+      "value": [
+        "10.0.0.0/16"
+      ]
+    },
+    "subnets": {
+      "value": [
+        {
+          "name": "default",
+          "properties": {
+            "addressPrefix": "10.0.0.0/20"
+          }
+        }
+      ]
+    },
+    "virtualNetworkId": {
+      "value": "/subscriptions/4024e7ed-5dcb-4a26-bb0c-42a8105351e2/resourceGroups/Devoir-1-VirtualMachine-Resource-Group/providers/Microsoft.Network/virtualNetworks/Devoir-1-VirtualMachine-Resource-Group-vnet"
+    },
+    "virtualNetworkName": {
+      "value": "Devoir-1-VirtualMachine-Resource-Group-vnet"
+    },
+    "networkSecurityGroups": {
+      "value": [
+        {
+          "name": "basicNsgDevoir-1-VirtualMachine-Resource-Group-vnet-nic01",
+          "id": "/subscriptions/4024e7ed-5dcb-4a26-bb0c-42a8105351e2/resourceGroups/Devoir-1-VirtualMachine-Resource-Group/providers/Microsoft.Network/networkSecurityGroups/basicNsgDevoir-1-VirtualMachine-Resource-Group-vnet-nic01",
+          "rules": [
+            {
+              "name": "Tcp",
+              "properties": {
+                "priority": 300,
+                "protocol": "Tcp",
+                "access": "Allow",
+                "direction": "Inbound",
+                "sourceAddressPrefix": "*",
+                "sourcePortRange": "*",
+                "destinationAddressPrefix": "*",
+                "destinationPortRange": "80"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "networkInterfaceConfigurations": {
+      "value": [
+        {
+          "name": "Devoir-1-VirtualMachine-Resource-Group-vnet-nic01",
+          "primary": true,
+          "subnetId": "/subscriptions/4024e7ed-5dcb-4a26-bb0c-42a8105351e2/resourceGroups/Devoir-1-VirtualMachine-Resource-Group/providers/Microsoft.Network/virtualNetworks/Devoir-1-VirtualMachine-Resource-Group-vnet/subnets/default",
+          "applicationGatewayBackendAddressPools": [],
+          "loadBalancerBackendAddressPools": [
+            {
+              "id": "[resourceId('Microsoft.Network/loadBalancers/backendAddressPools', parameters('loadBalancerName'), parameters('backendPoolName'))]"
+            }
+          ],
+          "applicationSecurityGroups": [],
+          "loadBalancerInboundNatPools": [],
+          "enableAcceleratedNetworking": false,
+          "nsgName": "basicNsgDevoir-1-VirtualMachine-Resource-Group-vnet-nic01",
+          "nsgId": "/subscriptions/4024e7ed-5dcb-4a26-bb0c-42a8105351e2/resourceGroups/Devoir-1-VirtualMachine-Resource-Group/providers/Microsoft.Network/networkSecurityGroups/basicNsgDevoir-1-VirtualMachine-Resource-Group-vnet-nic01",
+          "pipName": "publicIp-Devoir-1-VirtualMachine-Resource-Group-vnet"
+        }
+      ]
+    },
+    "backendPoolName": {
+      "value": "bepool"
+    },
+    "loadBalancerName": {
+      "value": "Devoir-1-SS-Load-Balancer"
+    },
+    "loadbalancingRuleFrontEndPort": {
+      "value": 80
+    },
+    "loadbalancingRuleBackendEndPort": {
+      "value": 80
+    },
+    "loadbalancingRuleProtocol": {
+      "value": "Tcp"
+    },
+    "InboundNATRuleFrontEndPortRangeStart": {
+      "value": 50000
+    },
+    "vmName": {
+      "value": "Devoir-1-Scale-Set"
+    },
+    "virtualMachineScaleSetName": {
+      "value": "Devoir-1-Scale-Set"
+    },
+    "instanceCount": {
+      "value": "2"
+    },
+    "instanceSize": {
+      "value": "Standard_B2pts_v2"
+    },
+    "zone": {
+      "value": [
+        "1",
+        "3"
+      ]
+    },
+    "zoneBalance": {
+      "value": "false"
+    },
+    "platformFaultDomainCount": {
+      "value": "1"
+    },
+    "scaleInPolicy": {
+      "value": {
+        "rules": [
+          "Default"
+        ],
+        "forceDeletion": true
+      }
+    },
+    "upgradePolicy": {
+      "value": "Manual"
+    },
+    "hibernationEnabled": {
+      "value": false
+    },
+    "adminUsername": {
+      "value": "adminUser"
+    },
+    "adminPassword": {
+      "value": null
+    },
+    "customData": {
+      "value": null
+    }
+  }
+}

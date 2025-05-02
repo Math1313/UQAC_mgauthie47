@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<group android:checkableBehavior="single">
+    <item
+        android:id="@+id/allTaskListFragment"
+        android:icon="@drawable/list_icon_24"
+        android:title="@string/menuList" />
+    <item
+        android:id="@+id/welcomeFragment"
+        android:icon="@drawable/chart_leaderboard_icon_24"
+        android:title="@string/menuLeaderboard"
+        />
+    <item
+        android:id="@+id/toDoListFragment"
+        android:icon="@drawable/filled_checked_icon_24"
+        android:title="@string/menuToDo" />
+
+</group>
+</menu>

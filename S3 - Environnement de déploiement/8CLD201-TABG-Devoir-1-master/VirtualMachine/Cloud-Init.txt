@@ -1,0 +1,81 @@
+#cloud-config
+package_upgrade: true
+packages:
+  - nginx
+  - nodejs
+  - npm
+write_files:
+  - owner: www-data:www-data
+    path: /etc/nginx/sites-available/default
+    defer: true
+    content: |
+      server {
+        listen 80;
+        location / {
+          proxy_pass http://localhost:3000;
+          proxy_http_version 1.1;
+          proxy_set_header Upgrade $http_upgrade;
+          proxy_set_header Connection keep-alive;
+          proxy_set_header Host $host;
+          proxy_cache_bypass $http_upgrade;
+        }
+      }
+  - owner: www-data:www-data
+    path: /home/myapp/index.js
+    defer: true
+    content: |
+      var express = require('express');
+      var app = express();
+      var os = require('os');
+
+      // Génère un nombre aléatoire entre 1 et 100
+      var secretNumber = Math.floor(Math.random() * 100) + 1;
+      var attempts = 0;
+
+      // Page d'accueil avec un formulaire pour deviner le nombre
+      app.get('/', function (req, res) {
+          let response = `
+              <html>
+              <head><title>Jeu de Deviner le Nombre</title></head>
+              <body>
+                  <h1>Bienvenue à partir de l'hôte: ${os.hostname()}</h1>
+                  <h2>Devinez un nombre entre 1 et 100!</h2>
+                  <form method="get" action="/guess">
+                      <input type="number" name="number" min="1" max="100" required>
+                      <button type="submit">Deviner</button>
+                  </form>
+                  <p>${req.query.message || ''}</p>
+              </body>
+              </html>
+          `;
+         res.send(response);
+      });
+
+      // Vérification de la devinette
+      app.get('/guess', function (req, res) {
+          let guessedNumber = parseInt(req.query.number);
+          attempts++;
+
+          if (guessedNumber > secretNumber) {
+              res.redirect('/?message=Trop grand! Essayez encore.');
+          } else if (guessedNumber < secretNumber) {
+              res.redirect('/?message=Trop petit! Essayez encore.');
+          } else {
+              let successMessage = `Bravo! Vous avez deviné le bon nombre ${secretNumber} en ${attempts} tentatives.`;
+              secretNumber = Math.floor(Math.random() * 100) + 1; // Réinitialise le jeu
+              attempts = 0;
+              res.redirect(`/?message=${successMessage}`);
+          }
+      });
+
+      app.listen(3000, function () {
+          console.log('Le jeu est en cours sur le port 3000!');
+      });
+
+runcmd:
+  - service nginx restart
+  - cd "/home/myapp"
+  - npm init
+  - npm install express -y
+  - nodejs index.js
+

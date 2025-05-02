@@ -1,0 +1,91 @@
+[{
+    "cours":{
+        "sigle":"8TRD157",
+        "nom":"BASES DE DONNÉES AVANCÉES",
+        "equivalent":"8TRD111"
+    },
+    "session":["Automne"],
+    "nombre_de_fois_offert" : 1,
+    "nombre_etudiants" : [30, 62],
+    "local_officiel" : [{"local":"P1-3070", "nombre_de_cours":13}, {"local":"P1-6350", "nombre_de_cours":2}],
+    "enseignat_actuel": "Jimmy Girard-Nault",
+    "anciens_enseignants": ["Jimmy Girard-Nault", "Eric Dallaire", "Paul Girard"]
+},
+{
+    "cours":{
+        "sigle":"8PRO107",
+        "nom":"INTRODUCTION A LA PROGRAMMATION"
+    },
+    "session":["Automne", "Hiver"],
+    "nombre_de_fois_offert" : 18,
+    "nombre_etudiants" : [100, 200, 150, 125, 123, 76, 23, 11, 130, 123, 136, 143, 65, 30, 62, 53, 86],
+    "enseignant_actuel": "Caroline Parizeau",
+    "anciens_enseignants": ["Caroline Parizeau"]
+},
+{
+    "cours":{
+        "sigle":"8STT108",
+        "nom":"ANALYSE ET TRAITEMENT DE DONNÉES MASSIVES",
+        "equivalent":"8INF108"
+    },
+    "enseignant_actuel": "Richard Khoury",
+    "nombre_etudiants" : [32, 25, 64],
+    "local_officiel" : [{"nombre_de_cours":13, "local":"P1-6350"}, {"local":"P1-5555", "nombre_de_cours":17}],
+    "anciens_enseignants": ["Richard Khoury"],
+    "session":["Hiver"],
+    "nombre_de_fois_offert" : 2
+},
+{
+    "cours":{
+        "sigle":"8INF892",
+        "nom":"APPRENTISSAGE PROFOND",
+        "equivalent":"8INF168"
+    },
+    "enseignant_actuel": "Kevin Bouchard",
+    "anciens_enseignants": [],
+    "nombre_etudiants" : [22],
+    "session":["Hiver"],
+    "nombre_de_fois_offert" : 1
+},
+{
+    "cours":{
+        "sigle":"8INF433",
+        "nom":"Algorithmique"
+    },
+    "nombre_etudiants" : [30, 32, 45, 50, 32, 45, 55, 57, 48, 32, 36, 45, 54, 34],
+    "enseignant_actuel": "Francois Lemieux",
+    "anciens_enseignants": ["Francois Lemieux"],
+    "session":["Automne"],
+    "nombre_de_fois_offert" : 14
+},
+{
+    "cours":{
+        "sigle":"2CTB618",
+        "nom":"COMPTABILITÉ: FONDEMENTS ESSENTIELS"
+    },
+    "session":["Hiver", "Automne"],
+    "enseignant_actuel": "Marie-Eve Tremblay",
+    "local_officiel" : [{"nombre_de_cours":13, "local":"H1-1110"}, {"nombre_de_cours": 133, "local":"H0-1050"} ],
+    "anciens_enseignants": ["Ghislain Turcotte", "Etienne Marceau"],
+    "nombre_de_fois_offert" : 26
+},
+{
+    "cours":{
+        "sigle":"6GEI264",
+        "nom":"VÉRIFICATION ET VALIDATION DE LOGICIELS"
+    },
+    "session":["Automne"],
+    "enseignant_actuel": "Luc Lamontagne",
+    "anciens_enseignants": ["Luc Lamontagne"],
+    "nombre_de_fois_offert" : 8
+},
+{
+    "cours":{
+        "sigle":"7ESP111",
+        "nom":"ESPAÑOL ELEMENTAIRE I"
+    },
+    "session":["Ete_1", "Ete_2"],
+    "enseignant_actuel": "Miriam Rodriguez",
+    "anciens_enseignants": ["Enith-Dolorès Ceballos Diaz"],
+    "nombre_de_fois_offert" : 56
+}]

@@ -1,0 +1,53 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+# Test commit
+
+trigger:
+- main
+
+# schedules:
+# - cron: "0 */2 * * *"  # Exécute le pipeline toutes les 2 heures
+#   displayName: "Run every 2 hours"
+#   branches:
+#     include:
+#     - main  # Spécifie la branche sur laquelle appliquer la planification
+#   always: true  # Exécute toujours même si aucune modification n'a eu lieu
+
+pool: default
+
+variables:
+  keepKeyVault: false
+
+steps:
+- task: AzureResourceManagerTemplateDeployment@3
+  displayName: "Delete Azure Key Vault Resource Group If keepKeyVault Is False"
+  inputs:
+    deploymentScope: 'Resource Group'
+    azureResourceManagerConnection: 'Azure subscription 1(4024e7ed-5dcb-4a26-bb0c-42a8105351e2)'
+    subscriptionId: '4024e7ed-5dcb-4a26-bb0c-42a8105351e2'
+    action: 'DeleteRG'
+    resourceGroupName: 'Devoir-1-Vault-Resource-Group'
+  condition: and(succeeded(), eq(variables['keepKeyVault'], 'false'))
+  continueOnError: true
+
+- task: AzureResourceManagerTemplateDeployment@3
+  displayName: "Delete Virtual Machine Resource Group If It Exists"
+  inputs:
+    deploymentScope: 'Resource Group'
+    azureResourceManagerConnection: 'Azure subscription 1(4024e7ed-5dcb-4a26-bb0c-42a8105351e2)'
+    subscriptionId: '4024e7ed-5dcb-4a26-bb0c-42a8105351e2'
+    action: 'DeleteRG'
+    resourceGroupName: 'Devoir-1-VirtualMachine-Resource-Group'
+  continueOnError: true
+
+- task: AzureResourceManagerTemplateDeployment@3
+  displayName: "Delete NetworkWatcherRG If It Exists"
+  inputs:
+    deploymentScope: 'Resource Group'
+    azureResourceManagerConnection: 'Azure subscription 1(4024e7ed-5dcb-4a26-bb0c-42a8105351e2)'
+    subscriptionId: '4024e7ed-5dcb-4a26-bb0c-42a8105351e2'
+    action: 'DeleteRG'
+    resourceGroupName: 'NetworkWatcherRG'
+  continueOnError: true

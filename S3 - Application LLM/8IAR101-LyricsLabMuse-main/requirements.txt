@@ -1,0 +1,10 @@
+setuptools
+python-dotenv
+PyQt5
+langchain
+langchain_community
+langchain_openai
+langchain_huggingface
+langchain_chroma
+sentence-transformers
+pypdf

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/frameLayout3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".fragment.AddEditTaskFragment">
+
+            <EditText
+                android:id="@+id/title_editText"
+                android:layout_width="350sp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30sp"
+                android:ems="10"
+                android:hint="Title"
+                android:inputType="text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.508"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Spinner
+                android:id="@+id/state_spinner"
+                android:layout_width="350sp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30sp"
+                app:layout_constraintStart_toStartOf="@+id/title_editText"
+                app:layout_constraintTop_toBottomOf="@+id/title_editText" />
+
+            <Spinner
+                android:id="@+id/type_spinner"
+                android:layout_width="350sp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30sp"
+                app:layout_constraintStart_toStartOf="@+id/state_spinner"
+                app:layout_constraintTop_toBottomOf="@+id/state_spinner" />
+
+            <CalendarView
+                android:id="@+id/calendarView2"
+                android:layout_width="350sp"
+                android:layout_height="300sp"
+                android:layout_marginTop="30sp"
+                app:layout_constraintStart_toStartOf="@+id/type_spinner"
+                app:layout_constraintTop_toBottomOf="@+id/type_spinner" />
+
+            <EditText
+                android:id="@+id/note_editText"
+                android:layout_width="350sp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="0sp"
+                android:ems="10"
+                android:hint="Notes"
+                android:inputType="text"
+                android:maxLength="30"
+                app:layout_constraintStart_toStartOf="@+id/calendarView2"
+                app:layout_constraintTop_toBottomOf="@+id/calendarView2" />
+
+            <EditText
+                android:id="@+id/reward_edittext"
+                android:layout_width="350sp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30sp"
+                android:ems="10"
+                android:inputType="text"
+                app:layout_constraintStart_toStartOf="@+id/note_editText"
+                app:layout_constraintTop_toBottomOf="@+id/note_editText" />
+
+            <Button
+                android:id="@+id/save_button"
+                android:layout_width="150sp"
+                android:layout_height="60sp"
+                android:layout_marginTop="20sp"
+                android:backgroundTint="@color/other_theme"
+                android:text="Save"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/reward_edittext" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</LinearLayout>
+
+
+
+
+

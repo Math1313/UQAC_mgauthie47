@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/connectFragment">
+
+    <fragment
+        android:id="@+id/welcomeFragment"
+        android:name="uqac.dim.bestroommate.fragment.WelcomeFragment"
+        android:label="@string/titleWelcomeFrag"
+        tools:layout="@layout/fragment_welcome" />
+    <fragment
+        android:id="@+id/toDoListFragment"
+        android:name="uqac.dim.bestroommate.fragment.ToDoListFragment"
+        android:label="@string/titleToDoListFrag"
+        tools:layout="@layout/fragment_to_do_list" >
+        <action
+            android:id="@+id/action_toDoListFragment_to_addEditTaskFragment"
+            app:destination="@id/addEditTaskFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right"/>
+    </fragment>
+    <fragment
+        android:id="@+id/addEditTaskFragment"
+        android:name="uqac.dim.bestroommate.fragment.AddEditTaskFragment"
+        android:label="@string/titleAddEditTaskFrag"
+        tools:layout="@layout/fragment_add_edit_task" >
+        <argument
+            android:name="argTaskPos"
+            app:argType="integer"
+            android:defaultValue="-1" />
+    </fragment>
+    <fragment
+        android:id="@+id/allTaskListFragment"
+        android:name="uqac.dim.bestroommate.fragment.AllTaskListFragment"
+        android:label="@string/titleAllTaskFrag"
+        tools:layout="@layout/fragment_all_task_list" >
+        <action
+            android:id="@+id/action_allTaskListFragment_to_addEditTaskFragment"
+            app:destination="@id/addEditTaskFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right"/>
+    </fragment>
+    <fragment
+        android:id="@+id/connectFragment"
+        android:name="uqac.dim.bestroommate.fragment.ConnectFragment"
+        android:label="fragment_connect"
+        tools:layout="@layout/fragment_connect" >
+        <action
+            android:id="@+id/action_connectFragment_to_welcomeFragment"
+            app:destination="@id/welcomeFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@android:anim/slide_out_right" />
+    </fragment>
+</navigation>

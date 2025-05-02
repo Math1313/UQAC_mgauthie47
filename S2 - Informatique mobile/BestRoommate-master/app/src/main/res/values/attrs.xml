@@ -1,0 +1,9 @@
+<resources>
+    <declare-styleable name="CustomAttrs">
+        <attr name="colorother" format="color" />
+        <attr name="colorOnother" format="color" />
+        <attr name="colorotherContainer" format="color" />
+        <attr name="colorOnotherContainer" format="color" />
+        <attr name="harmonizeother" format="boolean" />
+    </declare-styleable>
+</resources>

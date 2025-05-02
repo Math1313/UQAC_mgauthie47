@@ -1,0 +1,11 @@
+Local
+	Changer la PK pour la CANDIDATE NUMERO, changer numero pour code.
+Departement
+	Changer directeur pour id_directeur
+Enseignant
+	Changer id_local pour code_local
+	POSTE_TELEPHONE UNIQUE
+Session
+	Nom de table et d'id avec un _ à la fin (mot réservé)
+Cours_enseigne
+	Code local au lieu de id local

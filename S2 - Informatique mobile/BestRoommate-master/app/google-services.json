@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "486686179281",
+    "project_id": "bestroommate-51454",
+    "storage_bucket": "bestroommate-51454.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:486686179281:android:b9817a0cdd226812cfeaf0",
+        "android_client_info": {
+          "package_name": "uqac.dim.bestroommate"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBxian6Psw0vM9dBfXvYCMqgZkjWdXhwtM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
